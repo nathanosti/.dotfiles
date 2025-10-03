@@ -1,0 +1,173 @@
+/**
+ * ROFI - TOKYO NIGHT THEME
+ * Bordas arredondadas e estética integrada
+ */
+
+* {
+    /* Cores Tokyo Night */
+    bg0:     #1a1b26;
+    bg1:     #24283b;
+    bg2:     #414868;
+    bg3:     #565f89;
+    fg0:     #c0caf5;
+    fg1:     #a9b1d6;
+    fg2:     #9aa5ce;
+    
+    accent:  #7aa2f7;
+    urgent:  #f7768e;
+    warning: #e0af68;
+    success: #9ece6a;
+    
+    background-color: transparent;
+    text-color:       @fg0;
+    
+    margin:  0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    location:         center;
+    width:            640;
+    background-color: @bg0;
+    border:           2px;
+    border-color:     @accent;
+    border-radius:    12px;
+    padding:          16px;
+}
+
+mainbox {
+    spacing: 12px;
+    children: [ inputbar, message, listview ];
+}
+
+inputbar {
+    spacing:          8px;
+    padding:          12px 16px;
+    background-color: @bg1;
+    text-color:       @fg0;
+    border-radius:    8px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+    font:       "JetBrainsMono Nerd Font Bold 11";
+}
+
+entry {
+    placeholder:       "Buscar...";
+    placeholder-color: @bg3;
+    text-color:        @fg0;
+}
+
+message {
+    padding:          12px;
+    border-radius:    8px;
+    background-color: @bg1;
+    text-color:       @fg1;
+}
+
+textbox {
+    padding:          8px;
+    background-color: transparent;
+    text-color:       @fg1;
+}
+
+listview {
+    columns:       1;
+    lines:         8;
+    fixed-height:  false;
+    scrollbar:     true;
+    spacing:       4px;
+    padding:       4px 0px;
+}
+
+scrollbar {
+    width:        4px;
+    handle-width: 6px;
+    handle-color: @accent;
+    padding:      0 4px;
+    border-radius: 4px;
+}
+
+element {
+    padding:          12px 16px;
+    spacing:          12px;
+    background-color: transparent;
+    text-color:       @fg1;
+    border-radius:    8px;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color:       @fg1;
+}
+
+element normal.urgent {
+    background-color: @urgent;
+    text-color:       @bg0;
+}
+
+element normal.active {
+    background-color: @bg1;
+    text-color:       @accent;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:       @bg0;
+}
+
+element selected.urgent {
+    background-color: @urgent;
+    text-color:       @bg0;
+}
+
+element selected.active {
+    background-color: @accent;
+    text-color:       @bg0;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @fg1;
+}
+
+element-icon {
+    size:             1.2em;
+    vertical-align:   0.5;
+}
+
+element-text {
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+/* Mode Switcher (drun, run, window, etc) */
+mode-switcher {
+    spacing: 8px;
+    padding: 8px;
+}
+
+button {
+    padding:          8px 16px;
+    background-color: @bg1;
+    text-color:       @fg1;
+    border-radius:    6px;
+}
+
+button selected {
+    background-color: @accent;
+    text-color:       @bg0;
+}
+
+/* Error message */
+error-message {
+    padding:          16px;
+    border:           2px solid;
+    border-color:     @urgent;
+    border-radius:    8px;
+    background-color: @bg0;
+    text-color:       @urgent;
+}
