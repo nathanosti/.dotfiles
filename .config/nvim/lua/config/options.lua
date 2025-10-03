@@ -1,9 +1,4 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
---
--- -- Options são automaticamente carregados antes de lazy.nvim startup
--- Valores padrão estão em lua/lazyvim/config/options.lua
+-- Options gerais para LazyVim e múltiplos idiomas
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -22,11 +17,25 @@ opt.cursorline = true
 opt.signcolumn = "yes"
 opt.wrap = false
 
--- Tabs e indentação
-opt.tabstop = 2
-opt.shiftwidth = 2
+-- Tabs e indentação: Cada linguagem pode sobrescrever em plugin
+opt.tabstop = 2    -- JS/TS/Ruby
+opt.shiftwidth = 2 -- JS/TS/Ruby
 opt.expandtab = true
 opt.autoindent = true
+
+-- Exemplo: sobrescrever shiftwidth/tabstop para linguagens específicas via autocmd
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "python", "cpp", "c", "java", "go" },
+  callback = function()
+    if vim.bo.filetype == "python" then
+      vim.opt.shiftwidth = 4
+      vim.opt.tabstop = 4
+    elseif vim.bo.filetype == "cpp" or vim.bo.filetype == "c" or vim.bo.filetype == "java" or vim.bo.filetype == "go" then
+      vim.opt.shiftwidth = 4
+      vim.opt.tabstop = 4
+    end
+  end,
+})
 
 -- Search
 opt.ignorecase = true
