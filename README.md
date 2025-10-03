@@ -43,7 +43,7 @@ Inclui scripts para instalação automática de pacotes, configuração do ambie
 Após instalar o Arch e clonar seu repositório de dotfiles:
 
 ```bash
-git clone git@github.com:SEU-USUARIO/dotfiles.git ~/.dotfiles
+git clone git@github.com:nathanosti/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 chmod +x install.sh
 ./install.sh
