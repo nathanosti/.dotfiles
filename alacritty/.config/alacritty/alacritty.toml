@@ -1,4 +1,78 @@
-[terminal]
-[terminal.shell]
-args = ["-l"]
-program = "/bin/zsh"
+# Alacritty - Tokyo Night (aligned with i3 colors)
+# Font: JetBrainsMono Nerd Font 10
+# Background: #1a1b26
+# Foreground: #c0caf5
+# Accent (blue): #7aa2f7
+# Urgent (red): #f7768e
+
+[window]
+padding = { x = 10, y = 10 }
+dynamic_padding = true
+decorations = "None"
+opacity = 0.92
+startup_mode = "Windowed"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
+size = 10
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 500
+unfocused_hollow = true
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+background = "#1a1b26"
+foreground = "#c0caf5"
+
+[colors.cursor]
+text = "#1a1b26"
+cursor = "#c0caf5"
+
+[colors.selection]
+text = "#c0caf5"
+background = "#414868"
+
+# Normal colors (Tokyo Night-ish)
+[colors.normal]
+black   = "#1a1b26"
+red     = "#f7768e"
+green   = "#9ece6a"
+yellow  = "#e0af68"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#c0caf5"
+
+# Bright colors
+[colors.bright]
+black   = "#565f89"
+red     = "#ff7a93"
+green   = "#b9f27c"
+yellow  = "#ff9e64"
+blue    = "#7aa2f7"
+magenta = "#bb9af7"
+cyan    = "#7dcfff"
+white   = "#ffffff"
+
+# Optional: subtle dim palette for inactive panes/apps
+[colors.dim]
+black   = "#16161e"
+red     = "#db4b4b"
+green   = "#7aa25c"
+yellow  = "#b89654"
+blue    = "#5974c7"
+magenta = "#8a66c3"
+cyan    = "#5aa3a3"
+white   = "#a9b1d6"
+
