@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CACHE_DIR="/tmp/lf-ueberzug-${PPID}"
+FIFO="${CACHE_DIR}/fifo"
+LOG="${CACHE_DIR}/ueberzug.log"
+
+rm -rf "$CACHE_DIR"
+mkdir -p "$CACHE_DIR"
+mkfifo "$FIFO"
+chmod 600 "$FIFO"
+
+export LF_UEBERZUG_FIFO="$FIFO"
+
+# Pump: mantém o ueberzug conectado ao terminal e ao stream
+# (evita perder o contexto do tty em background)
+tail -f "$FIFO" | ueberzug layer --silent 2>"$LOG" &
+UZPID=$!
+
+cleanup() {
+  printf '{"action":"remove","identifier":"preview"}\n' >"$FIFO" 2>/dev/null || true
+  kill "$UZPID" 2>/dev/null || true
+  rm -rf "$CACHE_DIR" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
+
+exec lf

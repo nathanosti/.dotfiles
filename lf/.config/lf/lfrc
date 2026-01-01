@@ -20,6 +20,34 @@ set preview true
 set previewer ~/.config/lf/previewer.sh
 set cleaner ~/.config/lf/cleaner.sh
 
+# --- ueberzug: force clear on directory changes ---
+cmd ubzclear %{{
+  if [ -p "$LF_UEBERZUG_FIFO" ]; then
+    printf '{"action":"remove","identifier":"preview"}\n' >"$LF_UEBERZUG_FIFO" 2>/dev/null || true
+  fi
+}}
+
+# Wrap cd/up/open to always clear overlay
+cmd cdc %{{
+  lf -remote "send $id ubzclear"
+  lf -remote "send $id cd \"$1\""
+}}
+
+cmd upc %{{
+  lf -remote "send $id ubzclear"
+  lf -remote "send $id up"
+}}
+
+cmd openc %{{
+  lf -remote "send $id ubzclear"
+  lf -remote "send $id open"
+}}
+
+# Remap navigation keys to the wrapped commands
+map l :openc
+map h :upc
+map <enter> :openc
+
 # Keybindings
 map gh cd ~
 map g/ cd /
@@ -40,6 +68,9 @@ map e $$EDITOR "$f"
 map zh set hidden!
 map zp set preview!
 map zl redraw
+
+map j :ubzclear; down
+map k :ubzclear; up
 
 map q quit
 
