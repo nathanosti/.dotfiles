@@ -1,0 +1,389 @@
+
+# ============================================
+# i3 CONFIG - TOKYO NIGHT THEME
+# DUAL MONITOR: DP-0 (Esquerdo) | DP-2 (Direito)
+# ============================================
+
+# Mod key (Mod1 = Alt, Mod4 = Super/Windows)
+set $mod Mod4
+
+# Font para títulos de janelas
+font pango:JetBrainsMono Nerd Font 10
+
+# ============================================
+# CORES TOKYO NIGHT
+# ============================================
+
+set $bg-color            #1a1b26
+set $inactive-bg-color   #1a1b26
+set $text-color          #c0caf5
+set $inactive-text-color #565f89
+set $urgent-bg-color     #f7768e
+set $indicator-color     #7aa2f7
+set $border-color        #7aa2f7
+set $border-inactive     #414868
+
+# Cores das janelas
+#                       border              background         text                 indicator
+client.focused          $border-color       $bg-color          $text-color          $indicator-color
+client.unfocused        $border-inactive    $inactive-bg-color $inactive-text-color $border-inactive
+client.focused_inactive $border-inactive    $inactive-bg-color $inactive-text-color $border-inactive
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $urgent-bg-color
+client.placeholder      #000000             #0c0c0c            #ffffff              #000000
+client.background       $bg-color
+
+# ============================================
+# MONITORES (robusto contra EDID race)
+# ============================================
+
+set $monitor_left  DP-0
+set $monitor_right DP-2
+
+# Configurar monitores uma vez, de forma robusta
+exec_always --no-startup-id sh -c "sleep 1; \
+  xrandr \
+    --output HDMI-0 --off \
+    --output DP-0 --auto --pos 0x0 --primary \
+    --output DP-2 --auto --right-of DP-0"
+
+# ============================================
+# STARTUP APPLICATIONS
+# ============================================
+
+# Wallpaper
+exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpapers/wallpaper.jpg
+
+# Compositor (transparência e efeitos)
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf -b
+
+# Polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Notificações
+exec_always --no-startup-id dunst
+
+# NetworkManager Applet
+exec --no-startup-id nm-applet
+
+# Autotiling - Layout automático 2x2
+exec_always --no-startup-id autotiling
+
+# Aplicar tema GTK
+exec_always --no-startup-id xsettingsd
+
+# ============================================
+# GAPS E BORDAS
+# ============================================
+
+# Gaps (espaçamento entre janelas)
+gaps inner 10
+gaps outer 5
+
+# Gap na barra (top)
+gaps top 12
+
+# Bordas
+default_border pixel 2
+default_floating_border pixel 2
+
+# Hide edge borders
+hide_edge_borders smart
+
+# ============================================
+# LAYOUT AUTOMÁTICO
+# ============================================
+
+# Forçar split baseado no tamanho da janela
+default_orientation horizontal
+
+# ============================================
+# KEYBINDINGS - BÁSICOS
+# ============================================
+
+# Usar Mouse+$mod para arrastar janelas flutuantes
+floating_modifier $mod
+
+# Matar janela focada
+bindsym $mod+Shift+q kill
+
+# ============================================
+# NAVEGAÇÃO ENTRE MONITORES (h/l)
+# ============================================
+
+# Alternar foco entre monitores com h/l
+bindsym $mod+h focus output $monitor_left
+bindsym $mod+l focus output $monitor_right
+
+# Mover janela para outro monitor e seguir o foco
+bindsym $mod+Shift+h move container to output $monitor_left; focus output $monitor_left
+bindsym $mod+Shift+l move container to output $monitor_right; focus output $monitor_right
+
+# Mover workspace inteiro para outro monitor
+bindsym $mod+Ctrl+h move workspace to output $monitor_left
+bindsym $mod+Ctrl+l move workspace to output $monitor_right
+
+# ============================================
+# NAVEGAÇÃO ENTRE JANELAS (j/k e setas)
+# ============================================
+
+# Mudar foco entre janelas no mesmo workspace
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+
+# Alternativamente, usar setas
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Mover janela focada
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+
+# Alternativamente, usar setas
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# ============================================
+# LAYOUTS
+# ============================================
+
+# Split horizontal
+bindsym $mod+b split h
+
+# Split vertical
+bindsym $mod+v split v
+
+# Alternar split automático (grid)
+bindsym $mod+g split toggle
+
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Mudar layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Mudar foco entre tiling / floating
+bindsym $mod+space focus mode_toggle
+
+# Focar no parent container
+bindsym $mod+a focus parent
+
+# Focar no child container
+bindsym $mod+Shift+a focus child
+
+# ============================================
+# WORKSPACES - DEFINIÇÃO
+# ============================================
+
+set $ws1  "1:  Term"
+set $ws2  "2:  Code"
+set $ws3  "3:  Web"
+set $ws4  "4:  Chat"
+set $ws5  "5:  Media"
+set $ws6  "6:  Term"
+set $ws7  "7:  Code"
+set $ws8  "8:  Web"
+set $ws9  "9:  Docs"
+set $ws10 "10: Extra"
+
+# Atribuir workspaces aos monitores (fixo)
+workspace $ws1  output $monitor_left
+workspace $ws2  output $monitor_left
+workspace $ws3  output $monitor_left
+workspace $ws4  output $monitor_left
+workspace $ws5  output $monitor_left
+
+workspace $ws6  output $monitor_right
+workspace $ws7  output $monitor_right
+workspace $ws8  output $monitor_right
+workspace $ws9  output $monitor_right
+workspace $ws10 output $monitor_right
+
+# ============================================
+# KEYBINDINGS - WORKSPACES (DET. POR MONITOR)
+# ============================================
+
+# 1-5 SEMPRE no monitor esquerdo (DP-0)
+bindsym $mod+1 workspace $ws1;  focus output $monitor_left
+bindsym $mod+2 workspace $ws2;  focus output $monitor_left
+bindsym $mod+3 workspace $ws3;  focus output $monitor_left
+bindsym $mod+4 workspace $ws4;  focus output $monitor_left
+bindsym $mod+5 workspace $ws5;  focus output $monitor_left
+
+# Move janela p/ workspace 1-5 e vai junto
+bindsym $mod+Shift+1 move container to workspace $ws1;  workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2;  workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3;  workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4;  workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5;  workspace $ws5
+
+# 6-10 SEMPRE no monitor direito (DP-2)
+bindsym $mod+6 workspace $ws6;  focus output $monitor_right
+bindsym $mod+7 workspace $ws7;  focus output $monitor_right
+bindsym $mod+8 workspace $ws8;  focus output $monitor_right
+bindsym $mod+9 workspace $ws9;  focus output $monitor_right
+bindsym $mod+0 workspace $ws10; focus output $monitor_right
+
+# Move janela p/ workspace 6-10 e vai junto
+bindsym $mod+Shift+6 move container to workspace $ws6;  workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7;  workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8;  workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9;  workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
+
+# ============================================
+# NAVEGAÇÃO ENTRE WORKSPACES
+# ============================================
+
+# Próximo/anterior workspace no monitor atual
+bindsym $mod+Ctrl+Right workspace next_on_output
+bindsym $mod+Ctrl+Left  workspace prev_on_output
+
+# Ciclar entre workspaces do monitor atual
+bindsym $mod+Tab       workspace next_on_output
+bindsym $mod+Shift+Tab workspace prev_on_output
+
+# Back and forth (voltar para workspace anterior)
+workspace_auto_back_and_forth yes
+bindsym $mod+z workspace back_and_forth
+bindsym $mod+Shift+z move container to workspace back_and_forth
+
+# ============================================
+# APLICAÇÕES
+# ============================================
+
+# Terminal (Alacritty)
+bindsym $mod+Return exec alacritty
+
+# Rofi (launcher)
+bindsym $mod+d exec --no-startup-id rofi -show drun
+
+# Rofi (window switcher)
+bindsym $mod+Shift+d exec --no-startup-id rofi -show window
+
+# Browser
+bindsym $mod+Shift+b exec chrome-stable
+
+# File manager
+bindsym $mod+Shift+f exec pcmanfm
+
+# Screenshot (flameshot)
+bindsym Print exec --no-startup-id flameshot gui
+
+# Screenshot da janela ativa
+bindsym $mod+Print exec --no-startup-id flameshot screen
+
+# ============================================
+# CONTROLES DE SISTEMA
+# ============================================
+
+# Recarregar config
+bindsym $mod+Shift+c reload
+
+# Restart i3 inplace
+bindsym $mod+Shift+r restart
+
+# Exit i3 (logout)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Deseja sair do i3?' -B 'Sim, sair' 'i3-msg exit'"
+
+# Power menu
+bindsym $mod+Shift+p exec --no-startup-id ~/scripts/powermenu.sh
+
+# Lock screen
+bindsym $mod+Shift+x exec --no-startup-id i3lock -c 1a1b26
+
+# ============================================
+# CONTROLES DE ÁUDIO
+# ============================================
+
+# Volume (PulseAudio/PipeWire)
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Media player controls
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+# ============================================
+# MODOS
+# ============================================
+
+# Modo de resize
+mode "resize" {
+        bindsym h     resize shrink width 10 px or 10 ppt
+        bindsym Left  resize shrink width 10 px or 10 ppt
+        bindsym j     resize grow height 10 px or 10 ppt
+        bindsym Down  resize grow height 10 px or 10 ppt
+        bindsym k     resize shrink height 10 px or 10 ppt
+        bindsym Up    resize shrink height 10 px or 10 ppt
+        bindsym l     resize grow width 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Modo de gaps
+mode "gaps" {
+        bindsym plus  gaps inner all plus 5
+        bindsym minus gaps inner all minus 5
+        bindsym 0     gaps inner all set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym t        gaps top all plus 5
+        bindsym Shift+t  gaps top all minus 5
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+Shift+g mode "gaps"
+
+# ============================================
+# REGRAS PARA JANELAS ESPECÍFICAS
+# ============================================
+
+# Janelas flutuantes por padrão
+for_window [window_role="pop-up"]      floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [class="Pavucontrol"]       floating enable
+for_window [class="Arandr"]            floating enable
+for_window [class="Lxappearance"]      floating enable
+
+# Forçar tiling para aplicações principais
+for_window [class="Alacritty"]     floating disable
+for_window [class="Code"]          floating disable
+for_window [class="code-oss"]      floating disable
+for_window [class="Google-chrome"] floating disable
+for_window [class="Chromium"]      floating disable
+for_window [class="Pcmanfm"]       floating disable
+
+# ============================================
+# SCRATCHPAD
+# ============================================
+
+# Mover janela para scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Mostrar primeira janela do scratchpad
+bindsym $mod+minus scratchpad show
+
+# ============================================
+# FIM DA CONFIGURAÇÃO
+# ============================================
+

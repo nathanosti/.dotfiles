@@ -1,0 +1,11 @@
+# nunca versionar
+**/.cache/
+**/.local/share/
+**/.local/state/
+**/.npm/
+**/.nvm/
+**/.oh-my-zsh/
+**/.ssh/
+**/.pki/
+**/.Xauthority
+**/.xsession-errors*
