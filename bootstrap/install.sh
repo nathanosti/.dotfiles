@@ -9,13 +9,13 @@ STOW_PKGS=(
   htop
   i3
   lazydocker
-  libfm
+  lf
   mime
   nvim
-  pcmanfm
   picom
   polybar
   rofi
+  wallpapers
   xsettingsd
   zsh
 )
@@ -78,7 +78,7 @@ install_with_fallback() {
 log "Ensuring base dependencies (git, stow)"
 sudo pacman -S --needed --noconfirm git stow
 
-# Core i3 environment packages. Some may be AUR depending on your mirror/state.
+# Core i3 environment packages.
 CORE_PKGS=(
   i3-wm i3lock i3status
   xorg-xrandr xorg-xsetroot
@@ -88,7 +88,7 @@ CORE_PKGS=(
   network-manager-applet networkmanager
   pavucontrol playerctl
   htop
-  pcmanfm libfm
+  lf
   xsettingsd
   ttf-jetbrains-mono-nerd
 )
@@ -98,7 +98,11 @@ install_with_fallback "${CORE_PKGS[@]}"
 
 log "Applying dotfiles with stow"
 cd "$DOTFILES_DIR"
+
+# Remove previous symlinks for these packages (safe if not present)
 stow -Dv "${STOW_PKGS[@]}" 2>/dev/null || true
+
+# Apply
 stow -v "${STOW_PKGS[@]}"
 
 log "Optional: enable NetworkManager"
@@ -107,7 +111,11 @@ if systemctl list-unit-files | grep -q '^NetworkManager\.service'; then
 fi
 
 log "Create common folders"
-mkdir -p "$HOME/Pictures/wallpapers" "$HOME/scripts"
+mkdir -p \
+  "$HOME/Pictures/wallpapers" \
+  "$HOME/scripts" \
+  "$HOME/.local/state/lf" \
+  "$HOME/.cache/lf"
 
 log "Done."
 echo "Tip: reboot or log out/in for all session components to reload."
