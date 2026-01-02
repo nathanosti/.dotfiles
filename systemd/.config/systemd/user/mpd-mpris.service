@@ -1,0 +1,15 @@
+[Unit]
+Description=MPD MPRIS bridge
+After=mpd.service
+Requires=mpd.service
+
+[Service]
+Environment=MPD_HOST=127.0.0.1
+Environment=MPD_PORT=6600
+ExecStart=/usr/bin/mpd-mpris
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
+

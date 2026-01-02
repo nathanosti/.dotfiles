@@ -310,10 +310,10 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
-# Media player controls
-bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
-bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+# MPD (via playerctl/mpd-mpris)
+bindsym XF86AudioPlay exec --no-startup-id sh -lc 'p=$(playerctl -l | grep "^mpd" | head -n1); [ -n "$p" ] && playerctl --player="$p" play-pause'
+bindsym XF86AudioNext exec --no-startup-id sh -lc 'p=$(playerctl -l | grep "^mpd" | head -n1); [ -n "$p" ] && playerctl --player="$p" next'
+bindsym XF86AudioPrev exec --no-startup-id sh -lc 'p=$(playerctl -l | grep "^mpd" | head -n1); [ -n "$p" ] && playerctl --player="$p" previous'
 
 # ============================================
 # MODOS

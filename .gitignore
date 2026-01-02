@@ -9,3 +9,10 @@
 **/.pki/
 **/.Xauthority
 **/.xsession-errors*
+
+# MPD runtime/state
+mpd/.config/mpd/database
+mpd/.config/mpd/state
+mpd/.config/mpd/sticker.sql
+mpd/.config/mpd/log
+mpd/.config/mpd/playlists/*

@@ -11,10 +11,12 @@ STOW_PKGS=(
   lazydocker
   lf
   mime
+  mpd
   nvim
   picom
   polybar
   rofi
+  systemd
   wallpapers
   xsettingsd
   zsh
@@ -91,6 +93,13 @@ CORE_PKGS=(
   lf
   xsettingsd
   ttf-jetbrains-mono-nerd
+
+  # MPD / RMPC stack
+  mpd mpc
+  yt-dlp mpv
+
+  # MPRIS bridge for MPD (AUR in most setups; will fall back to yay)
+  mpd-mpris
 )
 
 log "Installing core packages for your i3 environment"
@@ -115,7 +124,21 @@ mkdir -p \
   "$HOME/Pictures/wallpapers" \
   "$HOME/scripts" \
   "$HOME/.local/state/lf" \
-  "$HOME/.cache/lf"
+  "$HOME/.cache/lf" \
+  "$HOME/.config/mpd/playlists" \
+  "$HOME/Music"
+
+log "MPD: ensure runtime/state files (do not version these)"
+touch \
+  "$HOME/.config/mpd/database" \
+  "$HOME/.config/mpd/state" \
+  "$HOME/.config/mpd/sticker.sql" \
+  "$HOME/.config/mpd/log"
+
+log "Enable user services (mpd, mpd-mpris)"
+systemctl --user daemon-reload || true
+systemctl --user enable --now mpd.service || true
+systemctl --user enable --now mpd-mpris.service || true
 
 log "Done."
 echo "Tip: reboot or log out/in for all session components to reload."
